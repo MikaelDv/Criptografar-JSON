@@ -107,7 +107,7 @@ while True:
                 salvar_senha()
         elif escolha == 4:
             print("\nSaindo do programa. Até mais!")
-            sleep(2)
+            sleep(1)
             clear()
             break
         else:
