@@ -24,7 +24,7 @@ try:
             dict_senhas += chars[index]
         dict_senhas = ast.literal_eval(dict_senhas)
 except FileNotFoundError:
-    dict_senhas = {}
+    dict_senhas = []
 
 
 def clear():
@@ -33,6 +33,7 @@ def clear():
     else:
         _ = system('clear')
 
+clear()
 
 def salvar_senha():
     texto_encript = ""
@@ -48,15 +49,17 @@ def criar_senha():
     nome_login = input("\nDe onde é esta senha?: ")
     login = input("Login: ")
     senha = input("Senha: ")
-    dict_senhas[nome_login.upper()] = [login, senha]
+    dict_senhas.append([nome_login.upper(), login, senha])
+    sleep(0.5)
+    clear()
+    print(f"Os dados de {nome_login.upper()} foram adicionados com sucesso!")
     sleep(1)
     clear()
 
-
 def exibir_senhas():
     print("\n****** Senhas ******")
-    for i, logins in enumerate(dict_senhas, start=1):
-        print(f"~~~~~~ {logins} ~~~~~~ \nlogin: {dict_senhas[logins][0]} \nsenha: {dict_senhas[logins][1]}")
+    for i, login in enumerate(dict_senhas):
+        print(f"~~~~~~ {login[0]} ~~~~~~ \nlogin: {login[1]} \nsenha: {login[2]}")
     sleep(5)
     clear()
 
@@ -64,11 +67,11 @@ def exibir_senhas():
 def excluir_senha():
     try:
         print("\n** Qual senha deseja excluir? **")
-        for i, logins in enumerate(dict_senhas, start=1):
-            print(f"-> {logins}")
-        senha = str(input())
-        dict_senhas.pop(senha.upper())
-        print(f"Os dados de {senha.upper()} foram removidos!")
+        for i, login in enumerate(dict_senhas):
+            print(f"({i+1}) {login[0]}")
+        senha = int(input()) - 1
+        print(f"Os dados de {dict_senhas[senha][0]} foram removidos!")
+        dict_senhas.pop(senha)
         sleep(2)
         clear()
     except:
@@ -89,7 +92,7 @@ while True:
             criar_senha()
             salvar_senha()
         elif escolha == 2:
-            if dict_senhas == {}:
+            if dict_senhas == []:
                 print("\nVocê não possui senhas salvas!")
                 sleep(1)
                 clear()
@@ -97,7 +100,7 @@ while True:
                 clear()
                 exibir_senhas()
         elif escolha == 3:
-            if dict_senhas == {}:
+            if dict_senhas == []:
                 print("\nVocê não possui senhas salvas!")
                 sleep(1)
                 clear()
